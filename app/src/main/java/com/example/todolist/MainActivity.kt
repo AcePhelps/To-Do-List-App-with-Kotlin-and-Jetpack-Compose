@@ -22,6 +22,9 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -133,7 +136,9 @@ fun FilterMenu(onFilterSelected: (String) -> Unit) {
             modifier = Modifier
                 .clickable { expanded = true }
                 .padding(16.dp)
+                .testTag("filterButton")
         )
+
 
         DropdownMenu(
             expanded = expanded,
@@ -144,21 +149,25 @@ fun FilterMenu(onFilterSelected: (String) -> Unit) {
                 onClick = {
                     onFilterSelected("Show All")
                     expanded = false
-                }
+                },
+                modifier = Modifier.testTag("showAllFilter")
+
             )
             DropdownMenuItem(
                 text = { Text("Show Only Done") },
                 onClick = {
                     onFilterSelected("Show Only Done")
                     expanded = false
-                }
+                },
+                modifier = Modifier.testTag("showOnlyDoneFilter")
             )
             DropdownMenuItem(
                 text = { Text("Exclude Done") },
                 onClick = {
                     onFilterSelected("Exclude Done")
                     expanded = false
-                }
+                },
+                modifier = Modifier.testTag("excludeDoneFilter")
             )
         }
     }
@@ -181,6 +190,7 @@ fun TaskItem(task: Task, onTaskAction: (TaskAction) -> Unit) {
                     Button(onClick = {
                         showDialog = false
                         onTaskAction(TaskAction.MarkDone)
+
                     }) {
                         Text("Mark as Done")
                     }
@@ -227,6 +237,9 @@ fun TaskItem(task: Task, onTaskAction: (TaskAction) -> Unit) {
     }
 
     val taskColor = if (task.isCompleted) Color.Green else Color.White
+    val semanticsModifier = Modifier.semantics {
+        contentDescription = if (task.isCompleted) "Task Done" else "Task Not Done"
+    }
 
     Row(
         modifier = Modifier
