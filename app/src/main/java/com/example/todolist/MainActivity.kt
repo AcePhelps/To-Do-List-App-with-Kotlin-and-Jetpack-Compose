@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
 fun ToDoListScreen(viewModel: TaskViewModel) {
     var taskName by remember { mutableStateOf("") }
     var showError by remember { mutableStateOf(false) }
-    var currentFilter by remember { mutableStateOf("Exclude Done") }
+    var currentFilter by remember { mutableStateOf("Show All") }
     val allTasks by viewModel.allTasks.observeAsState(initial = emptyList())
     val filteredTasks = when (currentFilter) {
         "Show All" -> allTasks
@@ -246,6 +246,7 @@ fun TaskItem(task: Task, onTaskAction: (TaskAction) -> Unit) {
             .fillMaxWidth()
             .padding(8.dp)
             .background(taskColor)
+            .then(semanticsModifier)
             .clickable { showDialog = true }
             .padding(16.dp)
     ) {
