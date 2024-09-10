@@ -28,6 +28,24 @@ class ToDoListSteps(private val page : ToDoListPage) {
         page.setFilterTo(ToDoListPage.TaskFilter.SHOW_ONLY_DONE)
         page.assertTaskExists(taskName)
     }
+    fun setToShowAllFilter(){
+        page.clickOnFilter()
+        page.setFilterTo(ToDoListPage.TaskFilter.SHOW_ALL)
+    }
+    fun setToShowAllExcludeDone(){
+        page.clickOnFilter()
+        page.setFilterTo(ToDoListPage.TaskFilter.EXCLUDE_DONE)
+    }
+     fun verifyAllTasksPresent(taskName: String,taskName1: String){
+         page.assertTaskExists(taskName)
+         page.assertTaskExists(taskName1)
+     }
+    fun verifyTaskExist(taskName: String){
+        page.assertTaskExists(taskName)
+    }
+    fun verifyTaskDoesNotExist(taskName: String){
+        page.assertTaskNotExists(taskName)
+    }
 
     fun userDeleteTask(taskName: String){
         page.deleteTask(taskName)

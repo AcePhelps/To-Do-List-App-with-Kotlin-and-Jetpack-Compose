@@ -109,59 +109,38 @@ class ToDoListScreenTest (){
         steps.verifyAllDoneFilter(task)
 
     }
-//    @Test
-//    fun testShowAllTasks() {
-//        // Add two tasks: one marked as done, the other not
-//        composeTestRule.setContent {
-//            ToDoListScreen(viewModel = taskViewModel)
-//        }
-//        composeTestRule.waitForIdle()
-//        // Add a task
-//        composeTestRule.onNodeWithText("New Task").performTextInput("Buy groceries")
-//        composeTestRule.onNodeWithText("Add Task").performClick()
-//
-//        // Add another task and mark it as done
-//        composeTestRule.onNodeWithText("New Task").performTextInput("Complete assignment")
-//        composeTestRule.onNodeWithText("Add Task").performClick()
-//        composeTestRule.onNodeWithText("Complete assignment").performClick()
-//        composeTestRule.onNodeWithText("Mark as Done").performClick()
-//        composeTestRule.onNodeWithTag("filterButton").performClick()
-//
-//
-//        // Apply the filter to show all tasks
-//        composeTestRule.onNodeWithTag("showAllFilter").performClick()
-//
-//        // Verify both tasks are visible
-//        composeTestRule.onNodeWithText("Buy groceries").assertExists()
-//        composeTestRule.onNodeWithText("Complete assignment").assertExists()
-//    }
-//    @Test
-//    fun testShowAllExceptDone() {
-//        // Add two tasks: one marked as done, the other not
-//        composeTestRule.setContent {
-//            ToDoListScreen(viewModel = taskViewModel)
-//        }
-//        composeTestRule.waitForIdle()
-//        // Add a task
-//        composeTestRule.onNodeWithText("New Task").performTextInput("Buy groceries")
-//        composeTestRule.onNodeWithText("Add Task").performClick()
-//
-//        // Add another task and mark it as done
-//        composeTestRule.onNodeWithText("New Task").performTextInput("Complete assignment")
-//        composeTestRule.onNodeWithText("Add Task").performClick()
-//        composeTestRule.onNodeWithText("Complete assignment").performClick()
-//        composeTestRule.onNodeWithText("Mark as Done").performClick()
-//        composeTestRule.onNodeWithTag("filterButton").performClick()
-//
-//
-//
-//        // Apply the filter to show all except done tasks
-//        composeTestRule.onNodeWithTag("excludeDoneFilter").performClick()
-//
-//        // Verify only the task that isn’t done is visible
-//        composeTestRule.onNodeWithText("Buy groceries").assertExists()
-//        composeTestRule.onNodeWithText("Complete assignment").assertDoesNotExist()
-//    }
+    @Test
+    fun testShowAllTasks() {
+        // Add two tasks: one marked as done, the other not
+        composeTestRule.setContent {
+            ToDoListScreen(viewModel = taskViewModel)
+        }
+        composeTestRule.waitForIdle()
+        var task1 = "Go for a walk"
+        var task2 = "Play Soccer"
+        steps.userAddingNewTask(task1)
+        steps.userAddingNewTask(task2)
+        steps.userMarkTaskAsDone(task2)
+        steps.setToShowAllFilter()
+        steps.verifyAllTasksPresent(task1,task2)
+
+    }
+    @Test
+    fun testShowAllExceptDone() {
+        // Add two tasks: one marked as done, the other not
+        composeTestRule.setContent {
+            ToDoListScreen(viewModel = taskViewModel)
+        }
+        composeTestRule.waitForIdle()
+        var task1 = "Go for a walk"
+        var task2 = "Play Soccer"
+        steps.userAddingNewTask(task1)
+        steps.userAddingNewTask(task2)
+        steps.userMarkTaskAsDone(task2)
+        steps.setToShowAllExcludeDone()
+        steps.verifyTaskExist(task1)
+        steps.verifyTaskDoesNotExist(task2)
+    }
 
 
 }
